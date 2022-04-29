@@ -10,7 +10,7 @@ import config, download
 def init_driver():
     print('Abrindo navegador...')
     chromeOptions = webdriver.ChromeOptions()
-    chromeOptions.add_experimental_option('prefs', {'download.default_directory' : config.FILES})
+    chromeOptions.add_experimental_option('prefs', {'download.default_directory' : config.FILES2})
     #chromeOptions.add_argument('log-level=3')
     driver = webdriver.Chrome(config.CHROMEDRIVER, options=chromeOptions)
     return driver

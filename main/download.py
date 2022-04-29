@@ -297,6 +297,9 @@ def tarifas(driver):
     '''for url in URL_2020:
         driver.get(url)'''
 
+'''for file in FILES:
+    if file.startswith()'''
+
     # https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/4950%20PCAT%20Cemig-D%20" + year_2020 + "%20V02%20-%20P%C3%B3s%20Recurso.xlsx
     # https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/4950%20PCAT%20Cemig-D%20" + year_2020 + "%20V02.xlsx
 	
