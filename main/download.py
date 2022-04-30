@@ -1,9 +1,15 @@
+from sqlalchemy import true
 import main, config
 import os
 import time
+import glob
+from pathlib import Path
 from selenium.webdriver.support.ui import Select
 
 from config import CHROMEDRIVER
+from config import FILES2 
+
+TIME_SLEEP = 5
 
 # caso da cemig - dois lançamentos de tafira no ano 
 # inconsistencia com a data de aniversario para pucos agentes 
@@ -19,13 +25,12 @@ from config import CHROMEDRIVER
 # change [year_] to iterable
 
 # 
-'''
+
 year_2022 = '2022'
 year = '2021'
 year_2020 = '2020'
 
 '''
-
 
 '''
 
@@ -109,7 +114,7 @@ def rename_file(old_file, new_file):
     new_file = os.path.join(config.FILES, new_file)
     return os.rename(old_file, new_file)
 
-
+'''
 def tarifas(driver):
 
     year_21 = 2021
@@ -302,4 +307,43 @@ def tarifas(driver):
                 driver.get(url)
         year_21 += 1
 
-time.sleep(TIME_SLEEP)   
+    time.sleep(TIME_SLEEP)   
+
+def rename():
+    # file names
+    file_path = glob.glob(FILES2 + "\\*")
+    file_name = []
+    for file in file_path:
+        file_name.append(Path(file).stem.split('.')[0].rstrip()) # rstrip() - ignore last white spaces
+    
+    # must be 91 in total
+    file_count = []
+    # condition: ID is 5697 - Celesc_D
+    for tarifa in file_name:
+        # str ends with 'V02'
+        if tarifa.endswith('V02'):
+            # str backwards
+            str = tarifa[::-1]
+            # [start_position, stop_position]
+            year = str[4:8][::-1] # reverse str from backwards
+            print(year)
+            file_count.append(tarifa)
+        # str starts with 'PCAT'
+        elif tarifa.startswith('PCAT'):
+            year = tarifa[-4:]
+            print(year)
+            file_count.append(tarifa)
+        # str ends with 'V021'    
+        elif tarifa.endswith('V021'):
+            str = tarifa[::-1]
+            year = str[5:9][::-1] 
+            print(year)
+            file_count.append(tarifa)
+        # condition: str don't end with 'V02'
+        else:
+            year = tarifa[-4:]
+            print(year)
+            file_count.append(tarifa)
+            
+        # date - associate year to day/month
+        
