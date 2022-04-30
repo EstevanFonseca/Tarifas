@@ -316,8 +316,10 @@ def rename():
     for file in file_path:
         file_name.append(Path(file).stem.split('.')[0].rstrip()) # rstrip() - ignore last white spaces
     
+    year = []
     # must be 91 in total
     file_count = []
+    year_count = []
     # condition: ID is 5697 - Celesc_D
     for tarifa in file_name:
         # str ends with 'V02'
@@ -325,25 +327,26 @@ def rename():
             # str backwards
             str = tarifa[::-1]
             # [start_position, stop_position]
-            year = str[4:8][::-1] # reverse str from backwards
+            year.append(str[4:8][::-1]) # reverse str from backwards
             print(year)
-            file_count.append(tarifa)
+            #file_count.append(tarifa)
+            #year_count.append(year)
         # str starts with 'PCAT'
         elif tarifa.startswith('PCAT'):
-            year = tarifa[-4:]
+            year.append(tarifa[-4:])
             print(year)
             file_count.append(tarifa)
         # str ends with 'V021'    
         elif tarifa.endswith('V021'):
             str = tarifa[::-1]
-            year = str[5:9][::-1] 
+            year.append(str[5:9][::-1])
             print(year)
             file_count.append(tarifa)
         # condition: str don't end with 'V02'
         else:
-            year = tarifa[-4:]
+            year.append(tarifa[-4:])
             print(year)
             file_count.append(tarifa)
-            
+    print('a')
         # date - associate year to day/month
         
