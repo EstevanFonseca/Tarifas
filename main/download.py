@@ -3,6 +3,7 @@ import main, config
 import os
 import time
 import glob
+import re
 from pathlib import Path
 from selenium.webdriver.support.ui import Select
 
@@ -317,7 +318,7 @@ def rename():
         file_name.append(Path(file).stem.split('.')[0].rstrip()) # rstrip() - ignore last white spaces
     
     year = []
-    # must be 91 in total
+    name = []
     file_count = []
     year_count = []
     # condition: ID is 5697 - Celesc_D
@@ -329,6 +330,7 @@ def rename():
             # [start_position, stop_position]
             year.append(str[4:8][::-1]) # reverse str from backwards
             print(year)
+            name.append(re.search(r'(?<=PCAT )\w+', tarifa).group(0))
             #file_count.append(tarifa)
             #year_count.append(year)
         # str starts with 'PCAT'
@@ -336,17 +338,29 @@ def rename():
             year.append(tarifa[-4:])
             print(year)
             file_count.append(tarifa)
+            # handle [name]_2021
+            name_year = re.search(r'(?<=PCAT_)\w+', tarifa).group(0)
+            only_name = name_year[:-5] # get all but the last 5 char
+            name.append(only_name)
         # str ends with 'V021'    
         elif tarifa.endswith('V021'):
             str = tarifa[::-1]
             year.append(str[5:9][::-1])
             print(year)
             file_count.append(tarifa)
+            name.append(re.search(r'(?<=PCAT )\w+', tarifa).group(0))
         # condition: str don't end with 'V02'
         else:
             year.append(tarifa[-4:])
             print(year)
             file_count.append(tarifa)
+            name.append(re.search(r'(?<=PCAT )\w+', tarifa).group(0))
+        # [file_name] and [year] must be 91
     print('a')
-        # date - associate year to day/month
-        
+        # date - associate year to full date
+# list of dates ordered by [file_name]
+
+## final file name [Name].[yyyy]-[mm]-[dd]
+'''date = []
+full_date = []
+for y in year'''
