@@ -120,6 +120,10 @@ def rename_file(old_file, new_file):
 '''
 def tarifas(driver):
 
+    files = glob.glob(FILES2 + '\\*')
+    for f in files:
+        os.remove(f)
+
     year_21 = 2021
 
     # change 2022 to current year
@@ -311,9 +315,9 @@ def tarifas(driver):
         year_21 += 1
         # handle new files
 
-    time.sleep(TIME_SLEEP)   
+    time.sleep(TIME_SLEEP)
+    driver.close();
 
-import collections
 def replace_file():
     # get file ID at begining of file's name
     for file in file_path:
@@ -339,15 +343,11 @@ def replace_file():
     num_match = []
     for match in matches:
         num_match.append(int(match))
-    print('a')
     # get list of idx
     idx = [idx_dict[id] for id in num_match]
-    # compare the two strings to see if has '20' and get last two char
-    # tranform two char to int 
-    # lower number associated to the file name will result in its deletion
     for indice in idx:
-        print(file_name[indice])
-    print('a')
+        os.remove(FILES2 + '\\' + file_name[indice - 1] + '.xlsx')
+
 def rename():    
     for file in file_path:
         file_name.append(Path(file).stem.split('.')[0].rstrip()) # rstrip() - ignore last white spaces
@@ -377,20 +377,14 @@ def rename():
             name_year = re.search(r'(?<=PCAT_)\w+', tarifa).group(0)
             only_name = name_year[:-5] # get all but the last 5 char
             name.append(only_name)
-        # str ends with 'V021'    
-        elif tarifa.endswith('V021'):
-            str = tarifa[::-1]
-            year.append(str[5:9][::-1])
-            print(year)
-            file_count.append(tarifa)
-            name.append(re.search(r'(?<=PCAT )\w+', tarifa).group(0))
+            
         # condition: str don't end with 'V02'
         else:
             year.append(tarifa[-4:])
             print(year)
             file_count.append(tarifa)
             name.append(re.search(r'(?<=PCAT )\w+', tarifa).group(0))
-        # [file_name] and [year] must be 91
+        # [file_name] and [year] must match
     print('a')
         # date - associate year to full date
 # list of dates ordered by [file_name]

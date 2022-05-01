@@ -27,8 +27,8 @@ def wait(elementName):
 def main():
     #driver = init_driver()
     #download.tarifas(driver)
-    download.replace_file()
-    #download.rename()
+    #download.replace_file()
+    download.rename()
 
 if __name__ == '__main__':
     main()
