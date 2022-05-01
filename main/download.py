@@ -1,41 +1,18 @@
-from sqlalchemy import true
-import main, config
 import os
 import time
 import glob
 import re
 from pathlib import Path
-from selenium.webdriver.support.ui import Select
 
-from config import CHROMEDRIVER
 from config import FILES2 
+import dates
 
 TIME_SLEEP = 5
-
-# caso da cemig - dois lançamentos de tafira no ano 
-# inconsistencia com a data de aniversario para pucos agentes 
-# rename without -D/_D/-DIS
-# quem é energisa?
-# arquivos que começam com PCAT
-
-#  CRTL + SHIFT + L - Select all
-# https://www.npmjs.com/package/python-bridge
-# -> 2022
-#   -> 2021
-#       -> 2020 ...
-# change [year_] to iterable
-
-# 
 
 year_2022 = '2022'
 year = '2021'
 year_2020 = '2020'
 file_path = glob.glob(FILES2 + "\\*")
-file_name = []
-
-'''
-
-'''
 
 # 2022
 URL_2022 = [
@@ -69,15 +46,10 @@ URL_2022 = [
 
 # 2021
 
-
 # 2020 and before
 URL_2020 = [
 
     "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/5160%20PCAT%20CEB-DIS%20" + year_2020 + "%20V021.xlsx", # CEBDIS 22/10
-
-    "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/5351%20PCAT%20Ceral%20Anit%C3%A1polis%20" + year_2020 + "%20V02.xlsx", # CERAL 2 - 30/11
-
-    "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/6610%20PCAT%20CERMC%20" + year_2020 + "%20V02.xlsx", # CERMC 2 - 30/11/2020
 
     "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/396%20PCAT%20RGE%20SUL%202019%20V021.xlsx", # RGE - 19/06
 
@@ -100,24 +72,6 @@ URL_2020 = [
     "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/PCAT_SuperEner_20173.xlsx", # EEB - 12/07
 ]
 
-'''
-#rename_file('2937 PCAT CPFL Piratininga " + year + " V02.xlsx', 'CPFL- PIRATININGA." + year + "-10-23.xlsx') # [code], name
-
-#2937 PCAT CPFL Piratininga " + year + " V02
-
-TIME_SLEEP = 5
-
-# PATHS
-
-CHROMEDRIVER = os.path.dirname(os.getcwd()) + '\\chromedriver\\chromedriver.exe'
-FILES = os.path.dirname(os.getcwd()) + '\\files\\'
-
-def rename_file(old_file, new_file):
-    old_file = os.path.join(config.FILES, old_file)
-    new_file = os.path.join(config.FILES, new_file)
-    return os.rename(old_file, new_file)
-
-'''
 def tarifas(driver):
 
     files = glob.glob(FILES2 + '\\*')
@@ -192,7 +146,7 @@ def tarifas(driver):
 
         "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/5382%20PCAT%20Ceris%20" + year + "%20V02.xlsx", # CERIS - 30/07
 
-        "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/6610%20PCAT%20CERMC%20" + year + "%20V02.xlsx", # CERMC 1 - 30/11/" + year + "
+        "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/6610%20PCAT%20CERMC%20" + year + "%20V02.xlsx", # CERMC - 30/11
 
         "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/2381%20PCAT%20Cermiss%C3%B5es%20" + year + "%20V02.xlsx", # CERMISSÕES - 30/07
 
@@ -318,6 +272,9 @@ def tarifas(driver):
     time.sleep(TIME_SLEEP)
     driver.close();
 
+file_name = []
+
+# keep only latest file
 def replace_file():
     # get file ID at begining of file's name
     for file in file_path:
@@ -346,17 +303,16 @@ def replace_file():
     # get list of idx
     idx = [idx_dict[id] for id in num_match]
     for indice in idx:
-        os.remove(FILES2 + '\\' + file_name[indice - 1] + '.xlsx')
+        os.remove((FILES2 + '\\' + file_name[indice - 1]) + '.xlsx' or '.xls')
 
-def rename():    
+def rename(): 
     for file in file_path:
         file_name.append(Path(file).stem.split('.')[0].rstrip()) # rstrip() - ignore last white spaces
     
     year = []
     name = []
     file_count = []
-    year_count = []
-    # condition: ID is 5697 - Celesc_D
+
     for tarifa in file_name:
         # str ends with 'V02'
         if tarifa.endswith('V02'):
@@ -366,8 +322,7 @@ def rename():
             year.append(str[4:8][::-1]) # reverse str from backwards
             print(year)
             name.append(re.search(r'(?<=PCAT )\w+', tarifa).group(0))
-            #file_count.append(tarifa)
-            #year_count.append(year)
+
         # str starts with 'PCAT'
         elif tarifa.startswith('PCAT'):
             year.append(tarifa[-4:])
@@ -378,24 +333,27 @@ def rename():
             only_name = name_year[:-5] # get all but the last 5 char
             name.append(only_name)
             
-        # condition: str don't end with 'V02'
+        # str don't end with 'V02'
         else:
             year.append(tarifa[-4:])
             print(year)
             file_count.append(tarifa)
             name.append(re.search(r'(?<=PCAT )\w+', tarifa).group(0))
         # [file_name] and [year] must match
-    print('a')
-        # date - associate year to full date
-# list of dates ordered by [file_name]
+    date(name, year)
 
-## final file name [Name].[yyyy]-[mm]-[dd]
-'''date = []
-full_date = []
-for y in year'''
+## FILE FORMAT [Name].[yyyy]-[mm]-[dd]
 
-date = ['07-12', '06-19', '11-22', '09-30', '07-30', '07-30', '07-30', '12-13', '07-30', '07-30', '06-24', '08-29', '10-23', '12/13', '07-04', '07-30', '07-30', '12-13',
-'08-28', '11-01', '08-07', '12-02', '08-07', '07-22', '07-22', '07-22', '05-22', '05-29', '07-30', '11-22', '07-30', '04-29', '04-29', '07-30', '11-30', '09-30', '09-30',
-'09-30', '09-30', '09-30', '09-30', '09-30', '09-30', '09-30', '09-30', '09-30', '09-30', '09-30', '09-30', '09-30', '09-30', '05-29', '04-29', '11-30', '05-29', '11-30',
-'08-22', '11-22', '07-30', '10-22', '06-22', '08-28', '07-30', '11-30', '06-22', '09-30', '09-30', '09-30', '11-01', '07-30', '05-29', '09-30', '06-29', '08-26', '08-29',
-'08-29', '08-29', '07-22', '11-22', '11-22', '12-22']
+def date(name, year):
+    new_file_path = glob.glob(FILES2 + "\\*")  
+    # 3 list comprehension
+    semi_date = [a +'.'+ b for a, b in zip(name, year)]
+    full_date = [a + '-' + b + '.xlsx' for a, b in zip(semi_date, dates.date)]
+
+    #for file in new_file_path:
+    for idx in range(len(new_file_path)):
+        os.rename(FILES2 + '\\' + os.path.basename(new_file_path[idx]), FILES2 + '\\' + full_date[idx])
+        #idx += 1
+        print('a')
+
+# IENERGIA -> DCELT 
