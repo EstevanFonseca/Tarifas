@@ -30,6 +30,8 @@ TIME_SLEEP = 5
 year_2022 = '2022'
 year = '2021'
 year_2020 = '2020'
+file_path = glob.glob(FILES2 + "\\*")
+file_name = []
 
 '''
 
@@ -307,13 +309,46 @@ def tarifas(driver):
         for url in URL_2021:
                 driver.get(url)
         year_21 += 1
+        # handle new files
 
     time.sleep(TIME_SLEEP)   
 
-def rename():
-    # file names
-    file_path = glob.glob(FILES2 + "\\*")
-    file_name = []
+import collections
+def replace_file():
+    # get file ID at begining of file's name
+    for file in file_path:
+        file_name.append(Path(file).stem.split('.')[0].rstrip())
+    file_id = [file.split()[0] for file in file_name]
+
+    fileid = []
+    dups = []
+    #matches = []
+    for id in file_id:
+        if not id.startswith('PCAT'):
+            id_int = int(id)
+            fileid.append(id_int)
+        dups = set([x for x in file_id if file_id.count(x) > 1])
+
+    # create a dictionary to hold the original idx
+    idx_dict = dict((k,i) for i,k in enumerate(fileid)) 
+    # try to find for duplicated ID's
+    # find corresponding idx for intersection of the two lists
+    # buils set of matches
+    matches = set(dups).intersection(file_id)
+    list(matches)
+    num_match = []
+    for match in matches:
+        num_match.append(int(match))
+    print('a')
+    # get list of idx
+    idx = [idx_dict[id] for id in num_match]
+    # compare the two strings to see if has '20' and get last two char
+    # tranform two char to int 
+    # lower number associated to the file name will result in its deletion
+    for indice in idx:
+        print(file_name[indice])
+    print('a')
+def rename():    
     for file in file_path:
         file_name.append(Path(file).stem.split('.')[0].rstrip()) # rstrip() - ignore last white spaces
     
