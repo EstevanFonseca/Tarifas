@@ -109,7 +109,7 @@ def tarifas(driver):
 
         "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/5343%20PCAT%20CELETRO%20" + year + "%20V02.xlsx", # CELETRO - 30/07
 
-        "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/6072%20PCAT%20Enel%20GO%20" + year + "%20V02.xlsx", # CELG-D -> Enel - GO - 22/10
+        "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/6072%20PCAT%20Enel%20GO%20" + year + "%20V02.xlsx", # CELG-D - 22/10
 
         "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/4950%20PCAT%20Cemig-D%20" + year + "%20V021.xlsx", # CEMIG-D - 29/05
 
@@ -279,7 +279,7 @@ def tarifas(driver):
 
         "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/39%20PCAT%20Enel%20CE%20" + year + "%20V02.xlsx", # Enel - CE - 22/04
 
-        #"https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/383%20PCAT%20Enel%20RJ%20" + year + "%20V02.xlsx", # Enel - RJ - 15/03
+        "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/383%20PCAT%20Enel%20RJ%20" + year + "%20V02.xlsx", # Enel - RJ - 15/03
 
         "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/44%20PCAT%20Ceal%20" + year + "%20V02.xlsx", # EQUATORIAL AL - 03/05
 
@@ -355,15 +355,16 @@ def replace_file():
 
     file_path = glob.glob(FILES2 + "\\*")
     file_name.clear()
+    file_id.clear()
     for file in file_path:
         file_name.append(Path(file).stem.split('.')[0].rstrip())
+    file_id = [file.split()[0] for file in file_name]
 
     rename(file_id, file_name)
 
 def backwards_string_handling(str, param = None):
     rst = str[::-1]
     if param is not None:
-        param = param
         year.append(rst[4:8][::-1]) 
         name.append(param)
     else:
@@ -371,33 +372,42 @@ def backwards_string_handling(str, param = None):
         name.append(re.search(r'(?<=PCAT )\w+', str).group(0))
 
 def rename(file_id, file_name):
-    '''year = []
-    name = []'''
     file_count = []
     i = 0
 
     for tarifa in file_name:
+        if i == 99:
+            id = 96
+        elif i == 100:
+            id = 97
+        elif i == 101:
+            id = 98
+        else:
+         id = int(file_id[i])
         # str ends with 'V02'
         if tarifa.endswith('V02'):
             # EDP
-            id = file_id[i]
-            if id == '380':
-                backwards_string_handling(tarifa,'EDP - ES')
-            elif id == '391':
+            if(i == 78):
+                print('s')
+                if(id == 6072):
+                    print('s')
+            if id == 380:
+                backwards_string_handling(tarifa,'EDP - ES') 
+            elif id == 391:
                 backwards_string_handling(tarifa,'EDP - SP')
             # ENEL
-            elif id == '39':
+            elif id == 39:
                 backwards_string_handling(tarifa,'ENEL - CE')
-            elif id == '383':
+            elif id == 383:
                 backwards_string_handling(tarifa,'ENEL - RJ')
-            elif id == '6072':
+            elif id == 6072:
                 backwards_string_handling(tarifa,'ENEL - GO')
-            elif id == '38':
-                backwards_string_handling(tarifa,'ELETROPAULO')
+            elif id == 390:
+                backwards_string_handling(tarifa,'ENEL - SP')
             # CPFL
-            elif id == '63':
+            elif id == 63:
                 backwards_string_handling(tarifa,'CPFL - PAULISTA')
-            elif id == '2937':
+            elif id == 2937:
                 backwards_string_handling(tarifa,'CPFL - PIRATININGA')
             else:
                 backwards_string_handling(tarifa)
@@ -411,12 +421,14 @@ def rename(file_id, file_name):
             name_year = re.search(r'(?<=PCAT_)\w+', tarifa).group(0)
             only_name = name_year[:-5] # get all but the last 5 char
             name.append(only_name)
+            i += 1
             
         # str don't end with 'V02'
         else:
             year.append(tarifa[-4:])
             file_count.append(tarifa)
             name.append(re.search(r'(?<=PCAT )\w+', tarifa).group(0))
+            i += 1
         # [file_name] and [year] must match
     date(name, year)
 
@@ -431,6 +443,5 @@ def date(name, year):
     #for file in new_file_path:
     for idx in range(len(new_file_path)):
         os.rename(FILES2 + '\\' + os.path.basename(new_file_path[idx]), FILES2 + '\\' + full_date[idx])
-    print()
 
 # IENERGIA -> DCELT 
