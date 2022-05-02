@@ -12,7 +12,6 @@ TIME_SLEEP = 5
 year_2022 = '2022'
 year = '2021'
 year_2020 = '2020'
-file_path = glob.glob(FILES2 + "\\*")
 
 # 2022
 URL_2022 = [
@@ -23,7 +22,7 @@ URL_2022 = [
 
     "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/40%20PCAT%20Cosern%20" + year_2022 + "%20V02.xlsx", # COSERN - 22/04
 
-    "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/63%20PCAT%20CPFL%20Paulista%20" + year_2022 + "%20V02.xlsx", # CPFL PAULISTA - 08/40
+    "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/63%20PCAT%20CPFL%20Paulista%20" + year_2022 + "%20V02.xlsx", # CPFL PAULISTA - 08/04
 
     "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/6611%20PCAT%20EBO%20" + year_2022 + "%20V02.xlsx", # EBO - 04/02
 
@@ -272,10 +271,10 @@ def tarifas(driver):
     time.sleep(TIME_SLEEP)
     driver.close();
 
-file_name = []
-
 # keep only latest file
 def replace_file():
+    file_name = []
+    file_path = glob.glob(FILES2 + "\\*")
     # get file ID at begining of file's name
     for file in file_path:
         file_name.append(Path(file).stem.split('.')[0].rstrip())
@@ -283,7 +282,6 @@ def replace_file():
 
     fileid = []
     dups = []
-    #matches = []
     for id in file_id:
         if not id.startswith('PCAT'):
             id_int = int(id)
@@ -305,10 +303,15 @@ def replace_file():
     for indice in idx:
         os.remove((FILES2 + '\\' + file_name[indice - 1]) + '.xlsx' or '.xls')
 
-def rename(): 
+    file_path = glob.glob(FILES2 + "\\*")
+    file_name.clear()
     for file in file_path:
-        file_name.append(Path(file).stem.split('.')[0].rstrip()) # rstrip() - ignore last white spaces
-    
+        file_name.append(Path(file).stem.split('.')[0].rstrip())
+        
+    rename(file_id, file_name)
+
+def rename(file_id, file_name):
+
     year = []
     name = []
     file_count = []
@@ -316,17 +319,18 @@ def rename():
     for tarifa in file_name:
         # str ends with 'V02'
         if tarifa.endswith('V02'):
+            # EDP
+
             # str backwards
             str = tarifa[::-1]
             # [start_position, stop_position]
             year.append(str[4:8][::-1]) # reverse str from backwards
-            print(year)
             name.append(re.search(r'(?<=PCAT )\w+', tarifa).group(0))
+            print()
 
         # str starts with 'PCAT'
         elif tarifa.startswith('PCAT'):
             year.append(tarifa[-4:])
-            print(year)
             file_count.append(tarifa)
             # handle [name]_2021
             name_year = re.search(r'(?<=PCAT_)\w+', tarifa).group(0)
@@ -336,7 +340,6 @@ def rename():
         # str don't end with 'V02'
         else:
             year.append(tarifa[-4:])
-            print(year)
             file_count.append(tarifa)
             name.append(re.search(r'(?<=PCAT )\w+', tarifa).group(0))
         # [file_name] and [year] must match
@@ -353,7 +356,6 @@ def date(name, year):
     #for file in new_file_path:
     for idx in range(len(new_file_path)):
         os.rename(FILES2 + '\\' + os.path.basename(new_file_path[idx]), FILES2 + '\\' + full_date[idx])
-        #idx += 1
-        print('a')
+    print()
 
 # IENERGIA -> DCELT 
