@@ -12,6 +12,8 @@ TIME_SLEEP = 5
 year_2022 = '2022'
 year = '2021'
 year_2020 = '2020'
+year = []
+name = []
 
 # 2022
 URL_2022 = [
@@ -307,26 +309,47 @@ def replace_file():
     file_name.clear()
     for file in file_path:
         file_name.append(Path(file).stem.split('.')[0].rstrip())
-        
+
     rename(file_id, file_name)
 
-def rename(file_id, file_name):
+def backwards_string_handling(str, param = None):
+    rst = str[::-1]
+    if param is not None:
+        param = param
+        year.append(rst[4:8][::-1]) 
+        name.append(param)
+    else:
+        year.append(rst[4:8][::-1])
+        name.append(re.search(r'(?<=PCAT )\w+', str).group(0))
 
-    year = []
-    name = []
+def rename(file_id, file_name):
+    '''year = []
+    name = []'''
     file_count = []
+    i = 0
 
     for tarifa in file_name:
         # str ends with 'V02'
         if tarifa.endswith('V02'):
             # EDP
-
-            # str backwards
-            str = tarifa[::-1]
-            # [start_position, stop_position]
-            year.append(str[4:8][::-1]) # reverse str from backwards
-            name.append(re.search(r'(?<=PCAT )\w+', tarifa).group(0))
-            print()
+            id = file_id[i]
+            if id == '380':
+                backwards_string_handling(tarifa,'EDP - ES')
+            elif id == '391':
+                backwards_string_handling(tarifa,'EDP - SP')
+            # ENEL
+            elif id == '39':
+                backwards_string_handling(tarifa,'ENEL - CE')
+            elif id == '38':
+                backwards_string_handling(tarifa,'ENEL - RJ')
+            # CPFL
+            elif id == '63':
+                backwards_string_handling(tarifa,'CPFL - PAULISTA')
+            elif id == '2937':
+                backwards_string_handling(tarifa,'CPFL - PIRATININGA')
+            else:
+                backwards_string_handling(tarifa)
+            i += 1
 
         # str starts with 'PCAT'
         elif tarifa.startswith('PCAT'):
