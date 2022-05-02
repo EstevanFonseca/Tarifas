@@ -262,6 +262,32 @@ def tarifas(driver):
         "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/1000042%20PCAT%20RGE%20(agrupada)%20" + year + "%20V02.xlsx", # RGE SUL - 19/06
 
         "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/46%20PCAT%20Sulgipe%20" + year + "%20V02.xlsx", # SULGIPE - 22/05
+        
+        "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/43%20PCAT%20Celpe%20" + year + "%20V02.xlsx", # CELPE - 29/04
+
+        "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/47%20PCAT%20Coelba%20" + year + "%20V02.xlsx", # COELBA - 22/04
+
+        "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/40%20PCAT%20Cosern%20" + year + "%20V02.xlsx", # COSERN - 22/04
+
+        "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/63%20PCAT%20CPFL%20Paulista%20" + year + "%20V02.xlsx", # CPFL PAULISTA - 08/04
+
+        "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/6611%20PCAT%20EBO%20" + year + "%20V02.xlsx", # EBO - 04/02
+
+        "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/404%20PCAT%20EMS%20%20" + year + "%20V02.xlsx", # EMS - 16/04
+
+        "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/405%20PCAT%20EMT%20" + year + "%20V02.xlsx", # EMT - 16/04
+
+        "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/39%20PCAT%20Enel%20CE%20" + year + "%20V02.xlsx", # Enel - CE - 22/04
+
+        "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/383%20PCAT%20Enel%20RJ%20" + year + "%20V02.xlsx", # Enel - RJ - 15/03
+
+        "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/44%20PCAT%20Ceal%20" + year + "%20V02.xlsx", # EQUATORIAL AL - 03/05
+
+        "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/6587%20PCAT%20ESE%20" + year + "%20V02.xlsx", # ESE - 22/04
+
+        "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/382%20PCAT%20Light%20" + year + "%20V02.xlsx", # LIGHT - 15/03
+
+        "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/PCAT_CPFL%20Santa%20Cruz_" + year + ".xlsx", # CPFL SANTA CRUZ - 22/03
     
     ] 
 
