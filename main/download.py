@@ -62,11 +62,11 @@ URL_2020 = [
 
     "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/SPARTA_SANTA_CRUZ_2018.xlsx", # CPFL JAGUARI - 22/03
 
-    "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/PCAT_NSC_20181.xlsx", # CPFL LESTE PAULISTA - 22/03
+    #"https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/PCAT_NSC_20181.xlsx", # CPFL LESTE PAULISTA - 22/03
 
-    "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/PCAT_NSC_20182.xlsx", # CPFL MOOCA - 22/03
+    #"https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/PCAT_NSC_20182.xlsx", # CPFL MOOCA - 22/03
 
-    "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/PCAT_NSC_20184.xlsx", # CPFL SUL PAULISTA - 22/03
+    #"https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/PCAT_NSC_20184.xlsx", # CPFL SUL PAULISTA - 22/03
 
     "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/PCAT_SuperEner_20172.xlsx", # EDEVP - 12/07
 
@@ -279,7 +279,7 @@ def tarifas(driver):
 
         "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/39%20PCAT%20Enel%20CE%20" + year + "%20V02.xlsx", # Enel - CE - 22/04
 
-        "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/383%20PCAT%20Enel%20RJ%20" + year + "%20V02.xlsx", # Enel - RJ - 15/03
+        #"https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/383%20PCAT%20Enel%20RJ%20" + year + "%20V02.xlsx", # Enel - RJ - 15/03
 
         "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/44%20PCAT%20Ceal%20" + year + "%20V02.xlsx", # EQUATORIAL AL - 03/05
 
@@ -287,7 +287,29 @@ def tarifas(driver):
 
         "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/382%20PCAT%20Light%20" + year + "%20V02.xlsx", # LIGHT - 15/03
 
-        "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/PCAT_CPFL%20Santa%20Cruz_" + year + ".xlsx", # CPFL SANTA CRUZ - 22/03
+        "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/5160%20PCAT%20CEB-DIS%20" + year_2020 + "%20V021.xlsx", # CEBDIS 22/10
+
+        "https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/396%20PCAT%20RGE%20SUL%202019%20V021.xlsx", # RGE - 19/06
+
+        #"https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/PCAT_CPFL%20Santa%20Cruz_" + year + ".xlsx", # CPFL SANTA CRUZ - 22/03
+
+        #"https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/PCAT_CERR_2013.xlsx", # CEER - 01/11
+
+        #"https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/PCAT_SuperEner_20174.xlsx", # CFLO - 12/07
+
+        #"https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/PCAT_SuperEner_20171.xlsx", # CNEE - 12/07
+
+        #"https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/SPARTA_SANTA_CRUZ_2018.xlsx", # CPFL JAGUARI - 22/03
+
+        #"https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/PCAT_NSC_20181.xlsx", # CPFL LESTE PAULISTA - 22/03
+
+        #"https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/PCAT_NSC_20182.xlsx", # CPFL MOOCA - 22/03
+
+        #"https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/PCAT_NSC_20184.xlsx", # CPFL SUL PAULISTA - 22/03
+
+        #"https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/PCAT_SuperEner_20172.xlsx", # EDEVP - 12/07
+
+        #"https://www2.aneel.gov.br/aplicacoes/tarifa/arquivo/PCAT_SuperEner_20173.xlsx", # EEB - 12/07
     
     ] 
 
@@ -366,8 +388,12 @@ def rename(file_id, file_name):
             # ENEL
             elif id == '39':
                 backwards_string_handling(tarifa,'ENEL - CE')
-            elif id == '38':
+            elif id == '383':
                 backwards_string_handling(tarifa,'ENEL - RJ')
+            elif id == '6072':
+                backwards_string_handling(tarifa,'ENEL - GO')
+            elif id == '38':
+                backwards_string_handling(tarifa,'ELETROPAULO')
             # CPFL
             elif id == '63':
                 backwards_string_handling(tarifa,'CPFL - PAULISTA')
